@@ -211,6 +211,9 @@ types:
         type: oid_t
       - id: nx_fusion_wbc
         type: prange_t
+      - id: cstm_slack
+        type: u1
+        repeat: eos
     instances:
       checkpoint_offset:
         pos: (nx_xp_desc_base + nx_xp_desc_index) * _root.block_size
@@ -671,6 +674,9 @@ types:
         type: xid_t
       - id: om_pending_revert_max
         type: xid_t
+      - id: cstm_slack
+        type: u1
+        repeat: eos
 
 # checkpoint (type: 0x0c)
 
@@ -787,6 +793,9 @@ types:
         type: xid_t
       - id: apfs_er_state_oid
         type: oid_t
+      - id: cstm_slack
+        type: u1
+        repeat: eos
 
   apfs_modified_by_t:
     seq:

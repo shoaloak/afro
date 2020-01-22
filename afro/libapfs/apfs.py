@@ -689,6 +689,12 @@ class Apfs(KaitaiStruct):
             self.reserved = self._io.read_u2le()
             self.apfs_root_to_xid = self._root.XidT(self._io, self, self._root)
             self.apfs_er_state_oid = self._root.OidT(self._io, self, self._root)
+            self.cstm_slack = []
+            i = 0
+            while not self._io.is_eof():
+                self.cstm_slack.append(self._io.read_u1())
+                i += 1
+
 
 
     class PaddrT(KaitaiStruct):
@@ -737,6 +743,12 @@ class Apfs(KaitaiStruct):
             self.om_most_recent_snap = self._root.XidT(self._io, self, self._root)
             self.om_pending_revert_min = self._root.XidT(self._io, self, self._root)
             self.om_pending_revert_max = self._root.XidT(self._io, self, self._root)
+            self.cstm_slack = []
+            i = 0
+            while not self._io.is_eof():
+                self.cstm_slack.append(self._io.read_u1())
+                i += 1
+
 
 
     class JSiblingMapValT(KaitaiStruct):
@@ -839,6 +851,12 @@ class Apfs(KaitaiStruct):
             self.nx_fusion_mt_oid = self._root.OidT(self._io, self, self._root)
             self.nx_fusion_wbc_oid = self._root.OidT(self._io, self, self._root)
             self.nx_fusion_wbc = self._root.PrangeT(self._io, self, self._root)
+            self.cstm_slack = []
+            i = 0
+            while not self._io.is_eof():
+                self.cstm_slack.append(self._io.read_u1())
+                i += 1
+
 
         @property
         def checkpoint_offset(self):

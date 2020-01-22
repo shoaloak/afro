@@ -10,14 +10,13 @@ Options:
 
 """
 
-import io
 import argparse
 import logging
 import sys
 
 from kaitaistruct import KaitaiStream, BytesIO
 
-from . import item_store, log, parse, carve, process, libapfs
+from . import item_store, log, parse, carve, process, libapfs, apfsteg, offsetbufferedreader
 
 LOGO = """      `-+yhddhy+-`
     .sNMMMMMMMMMMms.
@@ -31,21 +30,6 @@ LOGO = """      `-+yhddhy+-`
      .odds/::/shdh-
         `.::::.`.sh/
                   .so"""
-
-
-class OffsetBufferedReader(io.BufferedReader):
-    """docstring for OffsetBytesIO"""
-
-    def __init__(self, raw, offset):
-        super().__init__(raw)
-        self.offset = offset
-        self.seek(0)
-
-    def seek(self, offset, whence=0):
-        if whence == 0:
-            super().seek(self.offset + offset, whence)
-        else:
-            super().seek(offset, whence)
 
 
 def extract(args):
@@ -63,7 +47,7 @@ def extract(args):
         export = ['bodyfile', 'gtf', 'files']
 
     with open(args.image, 'rb') as image_io:
-        image_io = OffsetBufferedReader(image_io, args.offset * 512)
+        image_io = offsetbufferedreader.OffsetBufferedReader(image_io, args.offset * 512)
 
         file_entries = []
         apfs = libapfs.Apfs(KaitaiStream(image_io))
@@ -107,12 +91,17 @@ def main():
     parser.add_argument('-o', '--offset', type=int, default=0, help='offset to file system')
     parser.add_argument('-l', '--log', default='INFO', help='set log level')
     parser.add_argument('-e', '--export', action='append', choices=['bodyfile', 'gtf', 'files'], help='set outputs')
-    parser.add_argument('-m', '--method', default="carve", choices=['parse', 'carve'], help='set extraction method')
+    parser.add_argument('-m', '--method', default="carve", choices=['parse', 'carve', 'detect'],
+                        help='set extraction method')
     parser.add_argument('-c', '--carver', default="apsb", choices=['nxsb', 'apsb', 'nodes'], help='set carving method')
+    parser.add_argument('-d', '--detect', choices=['slack', 'inode_pad'], help='set detection method')
 
     parser.add_argument('image', help='path to the image')
     args = parser.parse_args()
-    extract(args)
+    if args.method == 'detect':
+        apfsteg.detect(args)
+    else:
+        extract(args)
 
 
 if __name__ == '__main__':

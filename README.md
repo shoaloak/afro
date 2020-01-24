@@ -2,7 +2,8 @@
 
 # afro (APFS file recovery) [![Build Status](https://travis-ci.org/cugu/afro.svg?branch=master)](https://travis-ci.org/cugu/afro)
 
-afro can parse APFS volumes. It can also recover deleted files from APFS that other tools do not find.
+AFRO can parse APFS volumes. It can also recover deleted files from APFS that other tools do not find.
+AFRO can also detect hidden data within/besides APFS datastructures.
 
 ## Installation
 
@@ -71,6 +72,7 @@ More information on the body file format can be found in the [sleuthkit wiki](ht
 
 ## Documentation on APFS
 
+- [**Revisiting Data Hiding Techniques for Apple File Systems**](https://dl.acm.org/doi/10.1145/3339252.3340524): Paper with APFS hiding techniques.
 - [**Forensic APFS File Recovery**](https://dl.acm.org/doi/10.1145/3230833.3232808): Paper where AFRO is presented.
 - [**Apple File System Reference**](https://developer.apple.com/support/apple-file-system/Apple-File-System-Reference.pdf): Official, but incomplete APFS specification.
 - [**Decoding the APFS file system**](http://www.sciencedirect.com/science/article/pii/S1742287617301408): Paper by Kurt H.Hansen and Fergus Toolan Fergus in _Digital Investigation_. Published: 2017-09-22.
